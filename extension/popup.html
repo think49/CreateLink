@@ -54,12 +54,13 @@ li.separator {
 				// see chrome://makelink/content/help/defininglinktypes.html
 				var text = response.length > 0 ? response : tab.title;
 				var data = def.format.
-					replace(/%url%/g, tab.url).
+					replace(/%url%/g, escapeURLChar(tab.url)).
 					replace(/%text%/g, text.replace(/\n/g, ' ')).
 					replace(/%text_n%/g, text).
 					replace(/%text_br%/g, text.replace(/\n/g, '<br />\n')).
 					replace(/%title%/g, tab.title).
 					replace(/%newline%/g, '\n').
+					replace(/%htmlEscapedUrl%/g, escapeHTML(escapeURLChar(tab.url))).
 					replace(/%htmlEscapedText%/g, escapeHTML(text)).
 					// TODO: window.prompt does not respond in popup window.
 					//replace(/%input%/g, showPrompt).
@@ -94,6 +95,13 @@ li.separator {
 		"'": '&apos;',
 		'"': '&quot;'
 	};
+
+	function escapeURLChar(text){ // escape URL Character which it's difficult to be linked by bbs.
+		return text ? text.replace(/[ \u0022\u0027-*,<>\u005B-^`{|}]/g, convertURLChar) : text;
+	}
+
+	function convertURLChar(c) { return '%' + c.charCodeAt(0).toString(16); }
+
 	
 	function showPrompt(text, pos, subject) {
 		var msg = "Please enter the input text for \n" + subject;
