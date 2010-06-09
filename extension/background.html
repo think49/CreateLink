@@ -29,8 +29,8 @@
 		} );
   }
   CreateLink.default_formats = [
-      {label: "Plain text", format: '%text% %url%' },
-      {label: "HTML", format: '<a href="%url%">%htmlEscapedText%</a>' },
+      {label: "Plain text", format: '%text%%newline%%url%' },
+      {label: "HTML", format: '<a href="%htmlEscapedUrl%">%htmlEscapedText%</a>' },
   ];
   CreateLink.prototype.readFormats = function () {
 		var formats;
